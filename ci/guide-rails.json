@@ -72,19 +72,8 @@
 						"value": "${SEGMENT_BASE_DIR}/cache/.gradle"
 					},
 					{
-						"name": "ivy.defaultCacheDir",
-						"description": "ivy cache directory is set to ${SEGMENT_BASE_DIR}/cache/.ivy by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created",
-						"value": "${SEGMENT_BASE_DIR}/cache/.ivy"
-					},
-					{
-						"name": "maven.repo.local",
-						"description": "maven local repository is set to ${SEGMENT_BASE_DIR}/cache/.m2 by default, when caching is enabled. Caches are maintained on the worker where your build gets allocated. For a new worker assigned to the build, the cache will be re-created",
-						"value": "${SEGMENT_BASE_DIR}/cache/.m2"
-					},
-					{
 						"name": "additional_properties_file",
-						"value": "sonar-project.properties",
-						"type": "string"
+						"value": "sonar-project.properties"
 					}
 				],
 				"deployment_strategy": {},
@@ -148,10 +137,10 @@
 					}
 				},
 				"cache_info": {
+					"enabled": true,
 					"paths": [
 						"((gradle.user.home))",
-						"((ivy.defaultCacheDir))",
-						"((maven.repo.local))"
+						"${SEGMENT_BASE_DIR}/jdk"
 					]
 				}
 			}
