@@ -405,7 +405,7 @@
 			},
 			"pid": {
 				"command": [
-					"ps -A -o pid,cmd | grep java | grep -v grep | head -n 1 | awk '{print 1}'\u003e{APPLICATION_PID_FILE}"
+					"ps -A -o pid,cmd | grep java | grep -v grep | head -n 1 | awk '{print 1}'\u003e${APPLICATION_PID_FILE}"
 				]
 			}
 		},
