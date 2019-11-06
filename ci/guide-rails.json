@@ -42,8 +42,8 @@
 						"properties": null
 					},
 					{
-						"name": "build integration test package",
-						"definition": "build integration test package",
+						"name": "assemble integration test package",
+						"definition": "assemble integration test package",
 						"command": "tar -cf integration-test.tar -X .tarignore *",
 						"properties": null
 					}
