@@ -1,6 +1,10 @@
-# SpringBoot Server
+# Guide-Rails Tutorial
+Learn how to get started with Guide-Rails full CI/CD pipelines using this sample Java application. 
+Check out the [Tutuorial](https://calculi.calculi.io/help/tutorials/java/java.html)
 
-Sample API Server for demonstrating Guide-Rails pipelines. Check out the [Tutuorial](https://calculi.calculi.io/help/tutorials/java/java.html)
+## SpringBoot Server
+
+Sample SpringBoot API Server
 
 ## Requirements
 
