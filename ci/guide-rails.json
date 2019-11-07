@@ -163,6 +163,12 @@
 						"definition": "Run Integration Tests",
 						"command": "export JAVA_HOME=${PKG_BASE_DIR}/jdk\n./gradlew integrationTest --no-daemon\ncp build/test-results/integrationTest/TEST-MathIntegrationTest.xml ${TEST_LOGS_DIR}/test.xml",
 						"properties": null
+					},
+					{
+						"name": "Fake Task",
+						"definition": "Fake Task",
+						"command": "echo \"fake task that does nothing... but show up in the console\"",
+						"properties": null
 					}
 				],
 				"exit_actions": {
