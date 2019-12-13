@@ -167,7 +167,7 @@
 					{
 						"name": "Prepare Integration Tests",
 						"definition": "Prepare Integration Tests",
-						"command": "tar xf ${PKG_BASE_DIR}/integration/integration-test.tar",
+						"command": "tar xf ${PKG_BASE_DIR}/integration-tests/integration-test.tar",
 						"properties": null
 					},
 					{
