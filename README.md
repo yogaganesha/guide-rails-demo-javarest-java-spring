@@ -1,9 +1,13 @@
-# SpringBoot Server
+# Guide-Rails Demo using Java SpringBoot
+Learn how to get started with Guide-Rails full CI/CD pipelines using this sample Java application. 
+Check out the [Tutuorial](https://guide-rails.calculi.io/help/tutorials/java/java.html)
 
-Sample API Server for demonstrating Guide-Rails pipelines. Check out the [Tutorial](https://guide-rails.calculi.io/help/tutorials/java/java.html)
+=======
+## SpringBoot Server
+
+Sample SpringBoot API Server
 
 ## Requirements
-
 * Gradle 5
 * OpenJDK 12
 
