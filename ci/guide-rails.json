@@ -51,7 +51,25 @@
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
-						"notifications": []
+						"notifications": [],
+						"code_analysis": {
+							"publish": true,
+							"properties": null
+						},
+						"delete_instances": true
+					},
+					"on_success": {
+						"notifications": [],
+						"code_analysis": null
+					},
+					"on_failure": {
+						"notifications": [],
+						"code_analysis": null
+					},
+					"on_abort": {
+						"notifications": [],
+						"code_analysis": null
+					}
 				},
 				"properties": [
 					{
