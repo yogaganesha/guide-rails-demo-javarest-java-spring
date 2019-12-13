@@ -4,7 +4,7 @@
 	},
 	"application": {
 		"name": "javarest",
-		"language": "JAVA",
+		"language": "JAVA_MAVEN",
 		"artifact_store": {
 			"type": "s3",
 			"repositories": [
@@ -51,7 +51,6 @@
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
-						"notifications": [],
 						"code_analysis": {
 							"publish": true,
 							"properties": null
@@ -59,15 +58,12 @@
 						"delete_instances": true
 					},
 					"on_success": {
-						"notifications": [],
 						"code_analysis": null
 					},
 					"on_failure": {
-						"notifications": [],
 						"code_analysis": null
 					},
 					"on_abort": {
-						"notifications": [],
 						"code_analysis": null
 					}
 				},
@@ -110,7 +106,7 @@
 						"installed_path": ""
 					},
 					{
-						"name": "integration",
+						"name": "integration-tests",
 						"dependencies": [],
 						"downloads": [],
 						"files": [
@@ -184,7 +180,6 @@
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
-						"notifications": [],
 						"code_analysis": {
 							"publish": false,
 							"properties": null
@@ -192,21 +187,18 @@
 						"delete_instances": true
 					},
 					"on_success": {
-						"notifications": [],
 						"code_analysis": {
 							"publish": false,
 							"properties": null
 						}
 					},
 					"on_failure": {
-						"notifications": [],
 						"code_analysis": {
 							"publish": false,
 							"properties": null
 						}
 					},
 					"on_abort": {
-						"notifications": [],
 						"code_analysis": {
 							"publish": false,
 							"properties": null
@@ -230,9 +222,9 @@
 					}
 				},
 				"package_dependencies": [
-					"integration",
 					"javarest",
-					"jdk"
+					"jdk",
+					"integration-tests"
 				],
 				"instance_tags": [
 					{
@@ -323,7 +315,6 @@
 		"exit_actions": {
 			"default": {
 				"fetch_logs": true,
-				"notifications": [],
 				"code_analysis": {
 					"publish": false,
 					"properties": null
@@ -331,15 +322,12 @@
 				"delete_instances": true
 			},
 			"on_success": {
-				"notifications": [],
 				"code_analysis": null
 			},
 			"on_failure": {
-				"notifications": [],
 				"code_analysis": null
 			},
 			"on_abort": {
-				"notifications": [],
 				"code_analysis": null
 			}
 		},
