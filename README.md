@@ -1,6 +1,6 @@
 # SpringBoot Server
 
-Sample API Server for demonstrating Guide-Rails pipelines. Check out the [Tutuorial](https://calculi.calculi.io/help/tutorials/java/java.html)
+Sample API Server for demonstrating Guide-Rails pipelines. Check out the [Tutorial](https://guide-rails.calculi.io/help/tutorials/java/java.html)
 
 ## Requirements
 
