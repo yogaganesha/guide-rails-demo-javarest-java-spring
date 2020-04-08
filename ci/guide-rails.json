@@ -4,7 +4,7 @@
 	},
 	"application": {
 		"name": "javarest",
-		"language": "JAVA",
+		"language": "JAVA_GRADLE",
 		"artifact_store": {
 			"type": "s3",
 			"repositories": [
@@ -249,7 +249,7 @@
 						"dependencies": [
 							{
 								"name": "consul",
-								"release": "consul-warden-centos",
+								"release": "consul",
 								"properties": []
 							}
 						]
@@ -318,7 +318,7 @@
 		},
 		"releases": [
 			{
-				"name": "consul-warden-centos",
+				"name": "consul",
 				"version": "latest"
 			}
 		]
