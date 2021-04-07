@@ -145,6 +145,12 @@
 								"definition": "Build Integration Package",
 								"command": "tar -cf integration-test.tar -X .tarignore *",
 								"properties": null
+							},
+							{
+								"name": "Echo Done",
+								"definition": "Echo Done",
+								"command": "echo done",
+								"properties": null
 							}
 						]
 					}
