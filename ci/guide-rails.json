@@ -1,6 +1,6 @@
 {
 	"metadata": {
-		"version": 1
+		"version": 2
 	},
 	"application": {
 		"name": "javarest",
@@ -28,26 +28,6 @@
 			{
 				"name": "Build",
 				"segment_type": "build",
-				"job_steps": [
-					{
-						"name": "Install JDK 12",
-						"definition": "Install JDK 12",
-						"command": "curl -O https://cdn.azul.com/zulu/bin/zulu12.3.11-ca-jdk12.0.2-linux_x64.tar.gz\ntar xf zulu12.3.11-ca-jdk12.0.2-linux_x64.tar.gz\nmv zulu12.3.11-ca-jdk12.0.2-linux_x64 jdk",
-						"properties": null
-					},
-					{
-						"name": "Build",
-						"definition": "Build",
-						"command": "export JAVA_HOME=${PWD}/jdk\n./gradlew build --no-daemon\ncp build/test-results/test/TEST-com.calculi.springbootserver.math.MathControllerTest.xml test.xml\ncp build/reports/jacoco/test/jacocoTestReport.xml coverage.xml\ncp build/libs/*.war .",
-						"properties": null
-					},
-					{
-						"name": "Build Integration Package",
-						"definition": "Build Integration Package",
-						"command": "tar -cf integration-test.tar -X .tarignore *",
-						"properties": null
-					}
-				],
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
@@ -90,43 +70,31 @@
 					}
 				],
 				"deployment_strategy": {},
-				"application_init": {
-					"command": "",
-					"arguments": null
-				},
+				"application_init": {},
 				"packages": [
 					{
 						"name": "javarest",
-						"dependencies": [],
 						"downloads": [],
 						"files": [
 							"SpringBootServer*.war"
-						],
-						"package_install_command": "",
-						"installed_path": ""
+						]
 					},
 					{
 						"name": "integration-tests",
-						"dependencies": [],
 						"downloads": [],
 						"files": [
 							"integration-test.tar"
-						],
-						"package_install_command": "",
-						"installed_path": ""
+						]
 					},
 					{
 						"name": "jdk",
-						"dependencies": [],
 						"downloads": [],
 						"files": [
 							"jdk/bin",
 							"jdk/lib",
 							"jdk/conf",
 							"jdk/jmods"
-						],
-						"package_install_command": "",
-						"installed_path": ""
+						]
 					}
 				],
 				"instance_tags": [
@@ -155,7 +123,32 @@
 						"((ivy.defaultCacheDir))",
 						"((maven.repo.local))"
 					]
-				}
+				},
+				"tasks": [
+					{
+						"name": "javarest",
+						"steps": [
+							{
+								"name": "Install JDK 12",
+								"definition": "Install JDK 12",
+								"command": "curl -O https://cdn.azul.com/zulu/bin/zulu12.3.11-ca-jdk12.0.2-linux_x64.tar.gz\ntar xf zulu12.3.11-ca-jdk12.0.2-linux_x64.tar.gz\nmv zulu12.3.11-ca-jdk12.0.2-linux_x64 jdk",
+								"properties": null
+							},
+							{
+								"name": "Build",
+								"definition": "Build",
+								"command": "export JAVA_HOME=${PWD}/jdk\n./gradlew build --no-daemon\ncp build/test-results/test/TEST-com.calculi.springbootserver.math.MathControllerTest.xml test.xml\ncp build/reports/jacoco/test/jacocoTestReport.xml coverage.xml\ncp build/libs/*.war .",
+								"properties": null
+							},
+							{
+								"name": "Build Integration Package",
+								"definition": "Build Integration Package",
+								"command": "tar -cf integration-test.tar -X .tarignore *",
+								"properties": null
+							}
+						]
+					}
+				]
 			},
 			{
 				"name": "Integration",
@@ -181,26 +174,22 @@
 					"default": {
 						"fetch_logs": true,
 						"code_analysis": {
-							"publish": false,
 							"properties": null
 						},
 						"delete_instances": true
 					},
 					"on_success": {
 						"code_analysis": {
-							"publish": false,
 							"properties": null
 						}
 					},
 					"on_failure": {
 						"code_analysis": {
-							"publish": false,
 							"properties": null
 						}
 					},
 					"on_abort": {
 						"code_analysis": {
-							"publish": false,
 							"properties": null
 						}
 					}
@@ -212,14 +201,9 @@
 					"update_watch_time": "5000-30000",
 					"serial": false
 				},
-				"application_init": {
-					"command": "",
-					"arguments": null
-				},
+				"application_init": {},
 				"process": {
-					"init": {
-						"command": ""
-					}
+					"init": {}
 				},
 				"package_dependencies": [
 					"javarest",
@@ -236,14 +220,14 @@
 					{
 						"name": "((application.name))",
 						"number_of_instances": 1,
-						"persistent_disk_type": "",
+						"cloud_provider_type": "aws",
 						"vm_type": "default",
 						"os_type": "default",
 						"networks": [
-							"((deploy.target.network.integration))"
+							"integration"
 						],
 						"availability_zones": [
-							"((deploy.target.zone.integration))"
+							"default"
 						],
 						"deployment_strategy": {},
 						"dependencies": [
@@ -268,14 +252,20 @@
 						"HealthCheckPort": "",
 						"UnhealthyThresholdCount": 0
 					}
-				}
+				},
+				"deployment_target": 1,
+				"releases": [
+					{
+						"name": "consul",
+						"version": "latest"
+					}
+				]
 			}
 		],
 		"exit_actions": {
 			"default": {
 				"fetch_logs": true,
 				"code_analysis": {
-					"publish": false,
 					"properties": null
 				},
 				"delete_instances": true
@@ -297,10 +287,7 @@
 				"target_path": "bin/start.sh"
 			}
 		],
-		"application_init": {
-			"command": "",
-			"arguments": null
-		},
+		"application_init": {},
 		"process": {
 			"init": {
 				"command": "bin/start.sh"
@@ -315,13 +302,7 @@
 					"ps -A -o pid,cmd | grep java | grep -v grep | head -n 1 | awk '{print $1}'\u003e${APPLICATION_PID_FILE}"
 				]
 			}
-		},
-		"releases": [
-			{
-				"name": "consul",
-				"version": "latest"
-			}
-		]
+		}
 	},
 	"organization": {
 		"orgname": "Tutorial"
