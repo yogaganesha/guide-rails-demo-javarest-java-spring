@@ -110,7 +110,11 @@
 								"command": "./gradlew build --no-daemon\n\ncp build/test-results/test/TEST-com.calculi.springbootserver.math.MathControllerTest.xml test.xml\n\ncp build/reports/jacoco/test/jacocoTestReport.xml coverage.xml\n",
 								"properties": null
 							}
-						]
+						],
+						"docker_options": {
+							"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1",
+							"repository": "dockerhub-proxy/library/openjdk:11"
+						}
 					}
 				]
 			},
