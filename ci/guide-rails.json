@@ -4,7 +4,7 @@
 	},
 	"application": {
 		"name": "javarest",
-		"language": "JAVA",
+		"language": "JAVA_GRADLE",
 		"artifact_store": {
 			"type": "s3",
 			"repositories": [
@@ -28,6 +28,19 @@
 			{
 				"name": "Build",
 				"segment_type": "build",
+				"publish_attributes": {
+					"publish": true,
+					"docker_images": [
+						{
+							"repository": "guide-rails/((application.name))",
+							"tags": [
+								"((application.version))"
+							],
+							"context": ".",
+							"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1"
+						}
+					]
+				},
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
@@ -71,32 +84,6 @@
 				],
 				"deployment_strategy": {},
 				"application_init": {},
-				"packages": [
-					{
-						"name": "javarest",
-						"downloads": [],
-						"files": [
-							"SpringBootServer*.war"
-						]
-					},
-					{
-						"name": "integration-tests",
-						"downloads": [],
-						"files": [
-							"integration-test.tar"
-						]
-					},
-					{
-						"name": "jdk",
-						"downloads": [],
-						"files": [
-							"jdk/bin",
-							"jdk/lib",
-							"jdk/conf",
-							"jdk/jmods"
-						]
-					}
-				],
 				"instance_tags": [
 					{
 						"name": "application.name",
@@ -145,20 +132,6 @@
 				"run_after": [
 					"Build"
 				],
-				"job_steps": [
-					{
-						"name": "Prepare Integration Tests",
-						"definition": "Prepare Integration Tests",
-						"command": "tar xf ${PKG_BASE_DIR}/integration-tests/integration-test.tar",
-						"properties": null
-					},
-					{
-						"name": "Run Tests",
-						"definition": "Run Tests",
-						"command": "export JAVA_HOME=${PKG_BASE_DIR}/jdk\n./gradlew integrationTest --no-daemon\ncp build/test-results/integrationTest/TEST-MathIntegrationTest.xml ${TEST_LOGS_DIR}/test.xml",
-						"properties": null
-					}
-				],
 				"exit_actions": {
 					"default": {
 						"fetch_logs": true,
@@ -201,11 +174,6 @@
 				"process": {
 					"init": {}
 				},
-				"package_dependencies": [
-					"javarest",
-					"jdk",
-					"integration-tests"
-				],
 				"instance_tags": [
 					{
 						"name": "application.name",
@@ -279,6 +247,25 @@
 				"post_deployment_actions": {
 					"loadbalancer": {}
 				},
+				"tasks": [
+					{
+						"name": "javarest",
+						"steps": [
+							{
+								"name": "Prepare Integration Tests",
+								"definition": "Prepare Integration Tests",
+								"command": "tar xf ${PKG_BASE_DIR}/integration-tests/integration-test.tar",
+								"properties": null
+							},
+							{
+								"name": "Run Tests",
+								"definition": "Run Tests",
+								"command": "export JAVA_HOME=${PKG_BASE_DIR}/jdk\n./gradlew integrationTest --no-daemon\ncp build/test-results/integrationTest/TEST-MathIntegrationTest.xml ${TEST_LOGS_DIR}/test.xml",
+								"properties": null
+							}
+						]
+					}
+				],
 				"deployment_target": 1,
 				"releases": [
 					{
