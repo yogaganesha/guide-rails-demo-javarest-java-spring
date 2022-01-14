@@ -279,7 +279,7 @@
 								"livenessProbe": {
 									"httpGet": {
 										"path": "/",
-										"port": 0,
+										"port": 8080,
 										"scheme": "HTTP"
 									},
 									"initialDelaySeconds": 5,
