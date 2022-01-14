@@ -156,13 +156,6 @@
 						}
 					}
 				},
-				"properties": [
-					{
-						"name": "consul.servicename",
-						"value": "((consul.servicename))",
-						"type": "string"
-					}
-				],
 				"deployment_strategy": {
 					"canaries": 1,
 					"max_in_flight": 1,
@@ -196,6 +189,7 @@
 						"deployment_strategy": {},
 						"dependencies": [
 							{
+								"id": "dccb10e9-9b24-4519-4394-7e5603a5cc9c",
 								"name": "consul",
 								"release": "consul",
 								"provides": [
@@ -249,26 +243,124 @@
 				},
 				"tasks": [
 					{
-						"name": "javarest",
+						"name": "health_check",
 						"steps": [
 							{
-								"name": "Prepare Integration Tests",
-								"definition": "Prepare Integration Tests",
-								"command": "tar xf ${PKG_BASE_DIR}/integration-tests/integration-test.tar",
-								"properties": null
-							},
-							{
-								"name": "Run Tests",
-								"definition": "Run Tests",
-								"command": "export JAVA_HOME=${PKG_BASE_DIR}/jdk\n./gradlew integrationTest --no-daemon\ncp build/test-results/integrationTest/TEST-MathIntegrationTest.xml ${TEST_LOGS_DIR}/test.xml",
+								"name": "Health check",
+								"definition": "Health check",
+								"command": "function healthCheck() {\n    appURL=$1\n    statusCode=$(curl -s -L -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\n    count=40\n    while [ $count -ge 0 ]; do \n        if [ $statusCode -ne 200 ]; then \n            echo \"Waiting for application to be healthy...\"\n            sleep 5\n            count=$(expr $count - 1)\n            statusCode=$(curl -L -s -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n            echo \"Received status code: ${statusCode} from ${appURL}\"\n        else \n             break\n         fi\n    done\n\n    if [ $statusCode -ne 200 ]; then\n         echo \"Failed to connect to application on DNS...\"\n         exit 1\n    fi\n}\n\necho \"Checking application health\"\ndnsCheck \"http://((consul.servicename)):8080/\n",
 								"properties": null
 							}
 						]
 					}
 				],
-				"deployment_target": 1,
+				"k8s_instance_groups": [
+					{
+						"tool_config_alias_id": "36c1292d-3351-4889-6912-d9b085795740",
+						"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1",
+						"name": "((application.name))",
+						"cluster_name": "",
+						"namespace": "((application.name))-((application.branch))",
+						"replicas": 3,
+						"containers": [
+							{
+								"name": "((application.name))",
+								"image": "guide-rails/((application.name)):((application.version))",
+								"ports": [
+									{
+										"name": "app-endpoint",
+										"hostPort": 8080,
+										"containerPort": 8080,
+										"protocol": "TCP"
+									}
+								],
+								"resources": {
+									"limits": {
+										"cpu": "100m",
+										"memory": "100Mi"
+									},
+									"requests": {
+										"cpu": "100m",
+										"memory": "100Mi"
+									}
+								},
+								"livenessProbe": {
+									"httpGet": {
+										"path": "/",
+										"port": 0,
+										"scheme": "HTTP"
+									},
+									"initialDelaySeconds": 5,
+									"timeoutSeconds": 5,
+									"periodSeconds": 20,
+									"failureThreshold": 3
+								},
+								"readinessProbe": {
+									"httpGet": {
+										"path": "/",
+										"port": 8080,
+										"scheme": "HTTP"
+									},
+									"initialDelaySeconds": 5,
+									"timeoutSeconds": 5,
+									"periodSeconds": 20,
+									"successThreshold": 2,
+									"failureThreshold": 3
+								},
+								"imagePullPolicy": "Always"
+							}
+						],
+						"autoscaling": {
+							"metadata": {
+								"creationTimestamp": null
+							},
+							"spec": {
+								"scaleTargetRef": {
+									"kind": "",
+									"name": ""
+								},
+								"minReplicas": 1,
+								"maxReplicas": 3,
+								"metrics": [
+									{
+										"type": "Resource",
+										"resource": {
+											"name": "cpu",
+											"target": {
+												"type": "AverageValue",
+												"averageValue": "70"
+											}
+										}
+									},
+									{
+										"type": "Resource",
+										"resource": {
+											"name": "memory",
+											"target": {
+												"type": "AverageValue",
+												"averageValue": "40"
+											}
+										}
+									}
+								]
+							},
+							"status": {
+								"currentReplicas": 0,
+								"desiredReplicas": 0,
+								"currentMetrics": null,
+								"conditions": null
+							}
+						},
+						"load_balancing_type": 2,
+						"service_name": "((application.name))-((application.branch))",
+						"type": "Deployment",
+						"deploy_application": true
+					}
+				],
+				"deployment_target": 2,
 				"releases": [
 					{
+						"id": "dccb10e9-9b24-4519-4394-7e5603a5cc9c",
 						"name": "consul",
 						"version": "latest"
 					}
@@ -293,7 +385,13 @@
 				"code_analysis": null
 			}
 		},
-		"default_properties": [],
+		"default_properties": [
+			{
+				"name": "consul.servicenmae",
+				"value": "((application.name))",
+				"type": "string"
+			}
+		],
 		"deployment_files": [
 			{
 				"source_path": "ci/bin/start.sh",
