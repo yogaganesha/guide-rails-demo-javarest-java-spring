@@ -282,7 +282,7 @@
 										"port": 8080,
 										"scheme": "HTTP"
 									},
-									"initialDelaySeconds": 10,
+									"initialDelaySeconds": 20,
 									"timeoutSeconds": 5,
 									"periodSeconds": 20,
 									"failureThreshold": 3
@@ -293,7 +293,7 @@
 										"port": 8080,
 										"scheme": "HTTP"
 									},
-									"initialDelaySeconds": 10,
+									"initialDelaySeconds": 20,
 									"timeoutSeconds": 5,
 									"periodSeconds": 20,
 									"successThreshold": 2,
