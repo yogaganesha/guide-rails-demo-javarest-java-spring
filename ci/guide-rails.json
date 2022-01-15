@@ -374,6 +374,13 @@
 					"Integration"
 				],
 				"exit_actions": {},
+				"properties": [
+					{
+						"name": "gr.helm.wait.timeout",
+						"value": "7m",
+						"type": "string"
+					}
+				],
 				"deployment_strategy": {
 					"canaries": 1,
 					"max_in_flight": 1,
