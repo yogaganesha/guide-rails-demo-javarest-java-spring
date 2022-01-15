@@ -452,6 +452,20 @@
 						]
 					}
 				],
+				"tasks": [
+					{
+						"name": "health_check",
+						"steps": [
+							{
+								"name": "health check",
+								"definition": "health check",
+								"command": "function healthCheck() {\n\tappURL=$1\n\tstatusCode=$(curl -s -L -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\n\tcount=40\n\twhile [ $count -ge 0 ]; do \n\t\tif [ $statusCode -ne 200 ]; then \n\t\t\techo \"Waiting for application to be healthy...\"\n\t\t\tsleep 5\n\t\t\tcount=$(expr $count - 1)\n\t\t\tstatusCode=$(curl -L -s -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\t\t\techo \"Received status code: ${statusCode} from ${appURL}\"\n\t\telse \n\t\t\tbreak\n\t\tfi\n\tdone\n\n\tif [ $statusCode -ne 200 ]; then\n\t\techo \"Failed to connect to application on DNS...\"\n\t\texit 1\n\tfi\n}\n\necho \"Checking application health\"\nhealthCheck \"https://((organization.name))-((application.name)).guide-rails.io/\"",
+								"properties": null
+							}
+						],
+						"docker_options": {}
+					}
+				],
 				"k8s_instance_groups": [
 					{
 						"tool_config_alias_id": "36c1292d-3351-4889-6912-d9b085795740",
