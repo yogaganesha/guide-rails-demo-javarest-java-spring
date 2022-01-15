@@ -269,11 +269,11 @@
 								"resources": {
 									"limits": {
 										"cpu": "100m",
-										"memory": "200Mi"
+										"memory": "100Mi"
 									},
 									"requests": {
 										"cpu": "100m",
-										"memory": "200Mi"
+										"memory": "100Mi"
 									}
 								},
 								"livenessProbe": {
@@ -282,7 +282,7 @@
 										"port": 8080,
 										"scheme": "HTTP"
 									},
-									"initialDelaySeconds": 20,
+									"initialDelaySeconds": 60,
 									"timeoutSeconds": 5,
 									"periodSeconds": 20,
 									"failureThreshold": 3
@@ -293,7 +293,7 @@
 										"port": 8080,
 										"scheme": "HTTP"
 									},
-									"initialDelaySeconds": 20,
+									"initialDelaySeconds": 60,
 									"timeoutSeconds": 5,
 									"periodSeconds": 20,
 									"successThreshold": 2,
