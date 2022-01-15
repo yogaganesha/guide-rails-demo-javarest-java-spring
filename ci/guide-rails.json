@@ -377,7 +377,7 @@
 				"properties": [
 					{
 						"name": "gr.helm.wait.timeout",
-						"value": "7m",
+						"value": "10m",
 						"type": "string"
 					}
 				],
