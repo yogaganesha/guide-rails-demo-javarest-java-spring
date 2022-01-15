@@ -581,7 +581,7 @@
 							"alb.ingress.kubernetes.io/certificate-arn": "arn:aws:iam::818130157321:server-certificate/guide-rails-wildcard-20220726",
 							"alb.ingress.kubernetes.io/healthcheck-path": "/",
 							"alb.ingress.kubernetes.io/healthcheck-port": "traffic-port",
-							"alb.ingress.kubernetes.io/listen-ports": "[{\\\"HTTP\\\": 80}, {\\\"HTTPS\\\":443}]",
+							"alb.ingress.kubernetes.io/listen-ports": "[{\"HTTP\": 80}, {\"HTTPS\":443}]",
 							"alb.ingress.kubernetes.io/scheme": "internet-facing",
 							"alb.ingress.kubernetes.io/ssl-redirect": "443"
 						},
