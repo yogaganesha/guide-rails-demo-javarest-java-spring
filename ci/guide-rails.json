@@ -383,6 +383,11 @@
 				"name": "consul.servicenmae",
 				"value": "((application.name))",
 				"type": "string"
+			},
+			{
+				"name": "gr.helm.wait.timeout",
+				"value": "10m",
+				"type": "string"
 			}
 		],
 		"deployment_files": [
