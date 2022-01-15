@@ -233,19 +233,6 @@
 				"post_deployment_actions": {
 					"loadbalancer": {}
 				},
-				"tasks": [
-					{
-						"name": "health_check",
-						"steps": [
-							{
-								"name": "Health check",
-								"definition": "Health check",
-								"command": "function healthCheck() {\n    appURL=$1\n    statusCode=$(curl -s -L -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\n    count=40\n    while [ $count -ge 0 ]; do \n        if [ $statusCode -ne 200 ]; then \n            echo \"Waiting for application to be healthy...\"\n            sleep 5\n            count=$(expr $count - 1)\n            statusCode=$(curl -L -s -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n            echo \"Received status code: ${statusCode} from ${appURL}\"\n        else \n             break\n         fi\n    done\n\n    if [ $statusCode -ne 200 ]; then\n         echo \"Failed to connect to application on DNS...\"\n         exit 1\n    fi\n}\n\necho \"Checking application health\"\ndnsCheck \"http://((consul.servicename)):8080/\n",
-								"properties": null
-							}
-						]
-					}
-				],
 				"k8s_instance_groups": [
 					{
 						"tool_config_alias_id": "36c1292d-3351-4889-6912-d9b085795740",
@@ -386,7 +373,7 @@
 			},
 			{
 				"name": "gr.helm.wait.timeout",
-				"value": "10m",
+				"value": "5m",
 				"type": "string"
 			}
 		],
@@ -398,19 +385,9 @@
 		],
 		"application_init": {},
 		"process": {
-			"init": {
-				"command": "bin/start.sh"
-			},
-			"stop": {
-				"command": [
-					"kill `cat ${APPLICATION_PID_FILE}`"
-				]
-			},
-			"pid": {
-				"command": [
-					"ps -A -o pid,cmd | grep java | grep -v grep | head -n 1 | awk '{print $1}'\u003e${APPLICATION_PID_FILE}"
-				]
-			}
+			"init": {},
+			"stop": {},
+			"pid": {}
 		}
 	},
 	"organization": {
