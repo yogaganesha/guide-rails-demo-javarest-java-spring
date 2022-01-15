@@ -247,7 +247,7 @@
 							{
 								"name": "health check",
 								"definition": "health check",
-								"command": "nslookup ${CONSUL_SERVICENAME}",
+								"command": "function healthCheck() {\n\tappURL=$1\n\tstatusCode=$(curl -s -L -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\n\tcount=40\n\twhile [ $count -ge 0 ]; do \n\t\tif [ $statusCode -ne 200 ]; then \n\t\t\techo \"Waiting for application to be healthy...\"\n\t\t\tsleep 5\n\t\t\tcount=$(expr $count - 1)\n\t\t\tstatusCode=$(curl -L -s -o /dev/null -w \"%{http_code}\" ${appURL} || true)\n\t\t\techo \"Received status code: ${statusCode} from ${appURL}\"\n\t\telse \n\t\t\tbreak\n\t\tfi\n\tdone\n\n\tif [ $statusCode -ne 200 ]; then\n\t\techo \"Failed to connect to application on DNS...\"\n\t\texit 1\n\tfi\n}\n\necho \"Checking application health\"\ndnsCheck \"http://((consul.servicename)):8080/\"",
 								"properties": null
 							}
 						],
@@ -589,7 +589,13 @@
 						"deploy_application": true
 					}
 				],
-				"deployment_target": 2
+				"deployment_target": 2,
+				"releases": [
+					{
+						"name": "consul",
+						"version": "latest"
+					}
+				]
 			}
 		],
 		"exit_actions": {
@@ -634,13 +640,7 @@
 			"init": {},
 			"stop": {},
 			"pid": {}
-		},
-		"releases": [
-			{
-				"name": "consul",
-				"version": "latest"
-			}
-		]
+		}
 	},
 	"organization": {
 		"orgname": "Tutorial"
