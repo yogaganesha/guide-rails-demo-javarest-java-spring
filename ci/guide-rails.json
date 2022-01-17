@@ -30,15 +30,6 @@
 				"exit_actions": {},
 				"deployment_strategy": {},
 				"application_init": {},
-				"packages": [
-					{
-						"name": "((application.name))",
-						"downloads": [],
-						"files": [
-							"((application.name))*"
-						]
-					}
-				],
 				"instance_tags": [
 					{
 						"name": "application.name",
