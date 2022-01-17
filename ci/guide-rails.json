@@ -23,7 +23,7 @@
 								"((application.version))"
 							],
 							"context": ".",
-							"docker_registry_alias_id": "f2747933-0a4b-4ba8-743b-7296b63a05b1"
+							"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1"
 						}
 					]
 				},
@@ -57,7 +57,7 @@
 							}
 						],
 						"docker_options": {
-							"docker_registry_alias_id": "f2747933-0a4b-4ba8-743b-7296b63a05b1",
+							"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1",
 							"repository": "dockerhub-proxy/library/openjdk:11"
 						}
 					}
