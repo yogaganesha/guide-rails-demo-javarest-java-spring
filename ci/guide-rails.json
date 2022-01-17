@@ -53,12 +53,214 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Integration",
+				"segment_type": "integration",
+				"run_after": [
+					"Build"
+				],
+				"exit_actions": {},
+				"properties": [
+					{
+						"name": "consul.servicename",
+						"value": "((application.name))-((segment.name))",
+						"type": "string"
+					}
+				],
+				"deployment_strategy": {
+					"canaries": 1,
+					"max_in_flight": 1,
+					"canary_watch_time": "5000-30000",
+					"update_watch_time": "5000-30000",
+					"serial": false
+				},
+				"application_init": {},
+				"instance_tags": [
+					{
+						"name": "application.name",
+						"value": "((application.name))"
+					}
+				],
+				"instance_groups": [
+					{
+						"name": "((application.name))",
+						"number_of_instances": 1,
+						"cloud_provider_type": "aws",
+						"vm_type": "default",
+						"os_type": "default",
+						"networks": [
+							"integration"
+						],
+						"availability_zones": [
+							"default"
+						],
+						"deployment_strategy": {},
+						"dependencies": [
+							{
+								"name": "consul",
+								"release": "consul",
+								"provides": [
+									{
+										"name": "consul_servers.as",
+										"value": "consul_1"
+									}
+								],
+								"consumes": [
+									{
+										"name": "consul_servers.from",
+										"value": "consul_1"
+									}
+								],
+								"properties": [
+									{
+										"name": "consul.servicename",
+										"value": "((consul.servicename))"
+									},
+									{
+										"name": "consul.environment",
+										"value": "((consul.environment))"
+									},
+									{
+										"name": "consul.datacenter",
+										"value": "((consul.datacenter))"
+									},
+									{
+										"name": "consul.server",
+										"value": "false"
+									},
+									{
+										"name": "consul.joinservers",
+										"value": "((consul.joinservers))"
+									},
+									{
+										"name": "calculi.intermediate.cert",
+										"value": "grsecret:tls.cert"
+									},
+									{
+										"name": "calculi.intermediate.key",
+										"value": "grsecret:tls.key"
+									}
+								]
+							}
+						]
+					}
+				],
+				"k8s_instance_groups": [
+					{
+						"tool_config_alias_id": "36c1292d-3351-4889-6912-d9b085795740",
+						"docker_registry_alias_id": "b7538d0f-4373-4d39-7300-76e6642699b1",
+						"name": "((application.name))",
+						"cluster_name": "",
+						"namespace": "guide-rails/((application.name))-((application.branch))",
+						"replicas": 1,
+						"containers": [
+							{
+								"name": "((application.name))",
+								"image": "guide-rails/((application.name)):((application.version))",
+								"ports": [
+									{
+										"name": "app-endpoints",
+										"hostPort": 8080,
+										"containerPort": 8080,
+										"protocol": "TCP"
+									}
+								],
+								"resources": {
+									"limits": {
+										"cpu": "100m",
+										"memory": "200Mi"
+									},
+									"requests": {
+										"cpu": "100m",
+										"memory": "200Mi"
+									}
+								},
+								"livenessProbe": {
+									"httpGet": {
+										"path": "/",
+										"port": 8080,
+										"scheme": "HTTP"
+									},
+									"initialDelaySeconds": 90,
+									"timeoutSeconds": 5,
+									"periodSeconds": 20,
+									"failureThreshold": 3
+								},
+								"readinessProbe": {
+									"httpGet": {
+										"path": "/",
+										"port": 8080,
+										"scheme": "HTTP"
+									},
+									"initialDelaySeconds": 120,
+									"timeoutSeconds": 5,
+									"periodSeconds": 20,
+									"failureThreshold": 3
+								},
+								"imagePullPolicy": "Always"
+							}
+						],
+						"autoscaling": {
+							"metadata": {
+								"creationTimestamp": null
+							},
+							"spec": {
+								"scaleTargetRef": {
+									"kind": "",
+									"name": ""
+								},
+								"minReplicas": 1,
+								"maxReplicas": 3,
+								"metrics": [
+									{
+										"type": "Resource",
+										"resource": {
+											"name": "cpu",
+											"target": {
+												"type": "AverageValue",
+												"averageValue": "70"
+											}
+										}
+									},
+									{
+										"type": "Resource",
+										"resource": {
+											"name": "memory",
+											"target": {
+												"type": "AverageValue",
+												"averageValue": "70"
+											}
+										}
+									}
+								]
+							},
+							"status": {
+								"currentReplicas": 0,
+								"desiredReplicas": 0,
+								"currentMetrics": null,
+								"conditions": null
+							}
+						},
+						"load_balancing_type": 2,
+						"service_name": "((application.name))-((application.branch))",
+						"type": "Deployment",
+						"deploy_application": true
+					}
+				],
+				"deployment_target": 2
 			}
 		],
 		"exit_actions": {},
 		"default_properties": [],
 		"deployment_files": [],
-		"application_init": {}
+		"application_init": {},
+		"releases": [
+			{
+				"name": "consul",
+				"version": "latest"
+			}
+		]
 	},
 	"organization": {
 		"orgname": "yogaganesha"
