@@ -1,6 +1,6 @@
 {
 	"metadata": {
-		"version": 1
+		"version": 2
 	},
 	"application": {
 		"name": "guide-rails-demo-javarest-java-spring",
@@ -52,7 +52,7 @@
 							{
 								"name": "build",
 								"definition": "build",
-								"command": "./gradlew package",
+								"command": "./gradlew build",
 								"properties": null
 							}
 						],
@@ -67,13 +67,7 @@
 		"exit_actions": {},
 		"default_properties": [],
 		"deployment_files": [],
-		"application_init": {},
-		"releases": [
-			{
-				"name": "consul",
-				"version": "latest"
-			}
-		]
+		"application_init": {}
 	},
 	"organization": {
 		"orgname": "yogaganesha"
