@@ -1,0 +1,81 @@
+{
+	"metadata": {
+		"version": 1
+	},
+	"application": {
+		"name": "guide-rails-demo-javarest-java-spring",
+		"language": "JAVA_GRADLE",
+		"artifact_store": {
+			"repositories": null
+		}
+	},
+	"pipeline": {
+		"segments": [
+			{
+				"name": "Build",
+				"segment_type": "build",
+				"publish_attributes": {
+					"publish": true,
+					"docker_images": [
+						{
+							"repository": "guide-rails/((application.name))",
+							"tags": [
+								"((application.version))"
+							],
+							"context": ".",
+							"docker_registry_alias_id": "f2747933-0a4b-4ba8-743b-7296b63a05b1"
+						}
+					]
+				},
+				"exit_actions": {},
+				"deployment_strategy": {},
+				"application_init": {},
+				"packages": [
+					{
+						"name": "((application.name))",
+						"downloads": [],
+						"files": [
+							"((application.name))*"
+						]
+					}
+				],
+				"instance_tags": [
+					{
+						"name": "application.name",
+						"value": "((application.name))"
+					}
+				],
+				"tasks": [
+					{
+						"name": "guide-rails-demo-javarest-java-spring",
+						"steps": [
+							{
+								"name": "build",
+								"definition": "build",
+								"command": "./gradlew package",
+								"properties": null
+							}
+						],
+						"docker_options": {
+							"docker_registry_alias_id": "f2747933-0a4b-4ba8-743b-7296b63a05b1",
+							"repository": "dockerhub-proxy/library/openjdk:11"
+						}
+					}
+				]
+			}
+		],
+		"exit_actions": {},
+		"default_properties": [],
+		"deployment_files": [],
+		"application_init": {},
+		"releases": [
+			{
+				"name": "consul",
+				"version": "latest"
+			}
+		]
+	},
+	"organization": {
+		"orgname": "yogaganesha"
+	}
+}
