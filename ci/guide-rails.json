@@ -258,7 +258,13 @@
 			}
 		],
 		"exit_actions": {},
-		"default_properties": [],
+		"default_properties": [
+			{
+				"name": "gr.helm.wait.timeout",
+				"value": "5m",
+				"type": "string"
+			}
+		],
 		"deployment_files": [],
 		"application_init": {}
 	},
